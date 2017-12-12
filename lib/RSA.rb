@@ -87,17 +87,3 @@ class RSA
 
     end 
 end
-
-#beta = RSA.new 0, 0, 0
-#keys = beta.new_key
-#
-#rsa = RSA.new keys[0], keys[1], keys[2]
-#
-#print rsa.encrypt "gloqm cheren mazen penis"
-#print "\n"
-#print rsa.encrypt "gloqm cheren mazen penis"
-#print "\n"
-#
-#print rsa.decrypt(rsa.encrypt "golqm cheren mazen penis")
-#
-#print "\n"
