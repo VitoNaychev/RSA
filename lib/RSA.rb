@@ -69,7 +69,7 @@ class RSA
             encr << ch.ord ** @e_ % @n_
         end
         encr = encr.to_s[1..-2]
-        encr << "\0"
+        encr = encr.tr " ", ""
         return encr
     end
    
@@ -79,26 +79,25 @@ class RSA
         #each symbol of this string by using its ASCII number 
         #representationand returns the decrypted message. 
         decr = String.new
-        message.split(', ').each do |num|
+        message.split(',').each do |num|
             num = num.to_i
             decr << (num ** @d_ % @n_).chr
         end
-        decr << "\0"
         return decr
 
     end 
 end
 
-beta = RSA.new 0, 0, 0
-keys = beta.new_key
-
-rsa = RSA.new keys[0], keys[1], keys[2]
-
-print rsa.encrypt "gloqm cheren mazen penis"
-print "\n"
-print rsa.encrypt "gloqm cheren mazen penis"
-print "\n"
-
-print rsa.decrypt(rsa.encrypt "golqm cheren mazen penis")
-
-print "\n"
+#beta = RSA.new 0, 0, 0
+#keys = beta.new_key
+#
+#rsa = RSA.new keys[0], keys[1], keys[2]
+#
+#print rsa.encrypt "gloqm cheren mazen penis"
+#print "\n"
+#print rsa.encrypt "gloqm cheren mazen penis"
+#print "\n"
+#
+#print rsa.decrypt(rsa.encrypt "golqm cheren mazen penis")
+#
+#print "\n"
