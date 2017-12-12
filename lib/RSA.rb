@@ -36,14 +36,14 @@ class RSA
         #the third is 'd'. Each time it is called a new key 
         #must be returned.
         prng = Random.new
-        p = (Prime.first 30)[prng.rand(30)]
-        q = (Prime.first 30)[prng.rand(30)]
+        p = (Prime.first 120)[10 + prng.rand(110)]
+        q = (Prime.first 120)[10 + prng.rand(110)]
         n = p * q
         coprime = Array.new
         lcm = (p - 1).lcm(q - 1)
         for i in 2..lcm
             if i.gcd(lcm) == 1
-                coprime << i            
+                coprime << i
             end
         end
         e = coprime[prng.rand(coprime.size)]
@@ -56,20 +56,6 @@ class RSA
         end
 
         keys = [n, e, d]
-        #print p
-        #print " " 
-        #print q
-        #print " " 
-        #print n
-        #print " " 
-        #print lcm
-        #print " " 
-        #print coprime
-        #print " " 
-        #print e
-        #print " " 
-        #print d
-        #print "\n"
         return keys
     end
    
@@ -77,7 +63,14 @@ class RSA
         #encrypts the message passed. The message is of type 
         #string. Encrypts each symbol of this string by using 
         #its ASCII number representation and returns the 
-        #encrypted message.   
+        #encrypted message.
+        encr = Array.new
+        message.each_char do |ch|
+            encr << ch.ord ** @e_ % @n_
+        end
+        encr = encr.to_s[1..-2]
+        encr << "\0"
+        return encr
     end
    
     def decrypt message
@@ -85,8 +78,27 @@ class RSA
         #string. Decrypts each symbol of this string Encrypts 
         #each symbol of this string by using its ASCII number 
         #representationand returns the decrypted message. 
+        decr = String.new
+        message.split(', ').each do |num|
+            num = num.to_i
+            decr << (num ** @d_ % @n_).chr
+        end
+        decr << "\0"
+        return decr
+
     end 
 end
 
-rsa = RSA.new 0, 0, 0
-rsa.new_key
+beta = RSA.new 0, 0, 0
+keys = beta.new_key
+
+rsa = RSA.new keys[0], keys[1], keys[2]
+
+print rsa.encrypt "gloqm cheren mazen penis"
+print "\n"
+print rsa.encrypt "gloqm cheren mazen penis"
+print "\n"
+
+print rsa.decrypt(rsa.encrypt "golqm cheren mazen penis")
+
+print "\n"
